@@ -1,624 +1,576 @@
-
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>世界之窗 - 学生游玩指南</title>
+    <title>Technology Experience - Hong Kong Science Park</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e6e6e6;
+            background-color: #f5f9fc;
+            color: #333;
             line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.5s;
         }
         
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
+        .page-container {
+            display: none;
             width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(30, 87, 153, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(32, 124, 202, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(76, 201, 240, 0.1) 0%, transparent 50%);
-            z-index: -1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            animation: fadeIn 0.8s ease-out;
         }
         
-        /* 添加科技感网格背景 */
-        .grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(18, 18, 36, 0.7) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(18, 18, 36, 0.7) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-            opacity: 0.3;
+        .page-active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         header {
-            background: linear-gradient(135deg, rgba(30, 87, 153, 0.9) 0%, rgba(32, 124, 202, 0.8) 100%);
+            background: linear-gradient(135deg, #0c2d68 0%, #1a56b2 100%);
             color: white;
-            padding: 3rem 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(76, 201, 240, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 25px 20px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
         }
         
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(76, 201, 240, 0.7);
-            background: linear-gradient(90deg, #ffffff, #4cc9f0);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-weight: 700;
-        }
-        
-        .subtitle {
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-            font-weight: 300;
-            color: #b8d4f0;
-        }
-        
-        .header-decoration {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(76, 201, 240, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            top: -100px;
-            right: -50px;
-            z-index: 1;
-            filter: blur(20px);
-        }
-        
-        .header-decoration:nth-child(2) {
-            width: 150px;
-            height: 150px;
-            top: 50px;
-            left: -50px;
-            background: radial-gradient(circle, rgba(30, 87, 153, 0.4) 0%, transparent 70%);
-        }
-        
-        /* 添加科技感光效 */
-        .light-beam {
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(76, 201, 240, 0.7), transparent);
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            z-index: 1;
-            box-shadow: 0 0 20px 2px rgba(76, 201, 240, 0.5);
-            animation: beamMove 8s infinite linear;
-        }
-        
-        @keyframes beamMove {
-            0% { transform: translateY(-50%) translateX(-100%); }
-            100% { transform: translateY(-50%) translateX(100%); }
-        }
-        
-        nav {
-            background: rgba(18, 18, 36, 0.8);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 1px solid rgba(76, 201, 240, 0.2);
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .nav-link {
-            padding: 1rem 1.5rem;
-            text-decoration: none;
-            color: #b8d4f0;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #1e5799, #4cc9f0);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover, .nav-link.active {
-            color: #4cc9f0;
-        }
-        
-        .nav-link:hover::before, .nav-link.active::before {
-            width: 100%;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 20px;
-        }
-        
-        section {
-            margin-bottom: 3rem;
-            background: rgba(26, 26, 46, 0.7);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            padding: 2.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(76, 201, 240, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #1e5799, #4cc9f0);
-        }
-        
-        section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        h2 {
-            color: #4cc9f0;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(76, 201, 240, 0.3);
-            position: relative;
-            font-weight: 600;
-        }
-        
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 80px;
-            height: 2px;
-            background: linear-gradient(90deg, #1e5799, #4cc9f0);
-        }
-        
-        p {
-            margin-bottom: 1rem;
-            color: #d1d1e0;
-        }
-        
-        .attraction-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .attraction-card {
-            background: rgba(30, 30, 50, 0.7);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid rgba(76, 201, 240, 0.1);
-            backdrop-filter: blur(5px);
-        }
-        
-        .attraction-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .attraction-img {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+        .logo-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: #b8d4f0;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
+            justify-content: space-between;
+            margin-bottom: 15px;
         }
         
-        .attraction-img::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(30, 87, 153, 0.2), rgba(76, 201, 240, 0.2));
-            z-index: 1;
+        .logo {
+            display: flex;
+            align-items: center;
         }
         
-        .attraction-content {
-            padding: 1.5rem;
-        }
-        
-        .attraction-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: #4cc9f0;
-            font-weight: 600;
-        }
-        
-        .price-box {
-            background: linear-gradient(135deg, rgba(30, 87, 153, 0.8), rgba(76, 201, 240, 0.7));
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-            color: white;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(30, 87, 153, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .price-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            background-size: cover;
-        }
-        
-        .price {
+        .logo-icon {
             font-size: 2.5rem;
-            font-weight: bold;
-            margin: 0.5rem 0;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            margin-right: 15px;
+            color: #4fc3f7;
         }
         
-        .tips-list {
+        .logo-text h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .logo-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .language-switch {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .language-switch:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding: 20px 0;
+        }
+        
+        .nav-btn {
+            background: #1a56b2;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(26, 86, 178, 0.3);
+        }
+        
+        .nav-btn:hover {
+            background: #0c2d68;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(26, 86, 178, 0.4);
+        }
+        
+        .nav-btn i {
+            margin: 0 8px;
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+        }
+        
+        .btn-back:hover {
+            background: #545b62;
+            box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
+        }
+        
+        .btn-next {
+            background: #1a56b2;
+        }
+        
+        .page-indicator {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #1a56b2;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .page-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            color: #0c2d68;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eaeaea;
+            display: flex;
+            align-items: center;
+        }
+        
+        .page-title i {
+            margin-right: 15px;
+            font-size: 1.8rem;
+            color: #1a56b2;
+        }
+        
+        .intro-points {
             list-style-type: none;
         }
         
-        .tips-list li {
-            padding: 0.8rem 0;
-            border-bottom: 1px solid rgba(76, 201, 240, 0.1);
-            position: relative;
-            padding-left: 2rem;
-            color: #d1d1e0;
+        .intro-points li {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8fbff;
+            border-radius: 10px;
+            border-left: 5px solid #1a56b2;
+            transition: transform 0.3s;
         }
         
-        .tips-list li::before {
-            content: '▶';
-            position: absolute;
-            left: 0;
-            color: #4cc9f0;
-            font-weight: bold;
-            font-size: 0.8rem;
+        .intro-points li:hover {
+            transform: translateX(5px);
+            background: #f0f7ff;
         }
         
-        .gallery {
+        .point-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #0c2d68;
+            font-size: 1.3rem;
+        }
+        
+        .point-icon {
+            width: 40px;
+            height: 40px;
+            background: #1a56b2;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .tech-feature {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8fbff;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .tech-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #1a56b2 0%, #4fc3f7 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+        
+        .feature-content h3 {
+            color: #0c2d68;
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .tech-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
         }
         
-        .gallery-item {
-            height: 200px;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 8px;
+        .tech-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border-top: 4px solid #1a56b2;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .tech-card-img {
+            height: 160px;
+            background-color: #e3f2fd;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #b8d4f0;
-            font-weight: bold;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid rgba(76, 201, 240, 0.1);
+            font-size: 3rem;
+            color: #1a56b2;
         }
         
-        .gallery-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(30, 87, 153, 0.2), rgba(76, 201, 240, 0.2));
-            z-index: 1;
+        .tech-card-content {
+            padding: 20px;
         }
         
-        .map-container {
-            height: 400px;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 8px;
-            margin-top: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #b8d4f0;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(76, 201, 240, 0.1);
-        }
-        
-        .map-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(90deg, transparent 49%, rgba(76, 201, 240, 0.1) 50%, transparent 51%),
-                linear-gradient(transparent 49%, rgba(76, 201, 240, 0.1) 50%, transparent 51%);
-            background-size: 30px 30px;
-            z-index: 1;
+        .tech-card-content h4 {
+            color: #0c2d68;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
         }
         
         footer {
-            background: rgba(10, 10, 20, 0.9);
-            color: #b8d4f0;
             text-align: center;
-            padding: 2.5rem 0;
-            margin-top: 3rem;
-            border-top: 1px solid rgba(76, 201, 240, 0.2);
-            backdrop-filter: blur(10px);
+            padding: 20px;
+            margin-top: 30px;
+            background: #0c2d68;
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .footer-links {
+            margin-top: 15px;
+        }
+        
+        .footer-links a {
+            color: #4fc3f7;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
         }
         
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
+            .logo-container {
+                flex-direction: column;
+                align-items: flex-start;
             }
             
-            .subtitle {
-                font-size: 1.1rem;
+            .language-switch {
+                margin-top: 15px;
+                align-self: flex-end;
             }
             
-            .nav-container {
-                flex-wrap: wrap;
+            .nav-buttons {
+                flex-direction: column;
+                gap: 15px;
             }
             
-            .nav-link {
-                padding: 0.8rem 1rem;
+            .nav-btn {
+                justify-content: center;
             }
             
-            .attraction-grid {
-                grid-template-columns: 1fr;
+            .tech-feature {
+                flex-direction: column;
             }
             
-            section {
-                padding: 1.5rem;
+            .feature-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
             }
+        }
+        
+        .chinese-translation {
+            display: none;
+            font-family: 'Microsoft JhengHei', sans-serif;
+        }
+        
+        .translation-active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="grid-overlay"></div>
-    <div class="light-beam"></div>
-    
     <header>
-        <div class="header-decoration"></div>
-        <div class="header-decoration"></div>
-        <div class="header-content">
-            <h1>陳子添- Page 1&nbsp; &nbsp;</h1>
-            <p class="subtitle">学生视角的全球文化探索之旅</p>
-            <p>一日之内，环游世界！</p>
+        <div class="logo-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Hong Kong Science Park</h1>
+                    <p>Technology Experience & Innovation Hub</p>
+                </div>
+            </div>
+            <button class="language-switch" id="languageToggle">
+                <i class="fas fa-language"></i> 中文 / English
+            </button>
         </div>
     </header>
-    
-    <nav>
-        <div class="nav-container">
-            <a href="#intro" class="nav-link active">公园简介</a>
-            <a href="#attractions" class="nav-link">必看景点</a>
-            <a href="#tickets" class="nav-link">学生票价</a>
-            <a href="#tips" class="nav-link">游玩贴士</a>
-            <a href="#gallery" class="nav-link">精彩瞬间</a>
-            <a href="#location" class="nav-link">交通指南</a>
-        </div>
-    </nav>
-    
-    <div class="container">
-        <section id="intro">
-            <h2>公园简介</h2>
-            <p>&nbsp;世界之窗是位于''中国广东省深圳市南山区华侨城的主题公园''，</p>
-            <p>收纳世界各地名胜的微缩模型，是深圳最为著名的旅游景点之一。</p>
-<p>世界之窗是我家附近最棒的景点之一！作为学生，这里不仅是学习世界文化的好地方，也是周末放松的好去处。</p>
-<p>公园内汇集了世界各地的著名景点微缩模型，从埃及金字塔到法国埃菲尔铁塔，从美国自由女神像到印度泰姬陵，应有尽有。每个景点旁都有详细的介绍，让我们在游玩的同时也能学到很多知识。</p>
-            <p>最棒的是，这里经常举办各种文化活动和表演，比如非洲鼓舞、欧洲宫廷舞等，让整个游览体验更加丰富多彩。</p>
-        </section>
-        
-        <section id="attractions">
-          <h2>必看景点</h2>
-            <p>作为常客，我整理了几个绝对不能错过的景点：</p>
+
+    <!-- Page 1: Introduction -->
+    <div id="page1" class="page-container page-active">
+        <div class="page-content">
+            <h2 class="page-title"><i class="fas fa-star"></i> Introduction to Technology at Hong Kong Science Park</h2>
             
-            <div class="attraction-grid">
-                <div class="attraction-card">
-                    <div class="attraction-img">埃菲尔铁塔</div>
-                    <div class="attraction-content">
-                        <h3 class="attraction-title">埃菲尔铁塔</h3>
-                        <p>1:3比例的埃菲尔铁塔模型，可以乘电梯到达顶端，俯瞰整个公园美景。</p>
+            <ul class="intro-points">
+                <li>
+                    <div class="point-title">
+                        <div class="point-icon">1</div>
+                        <h3>Vision of Innovation</h3>
                     </div>
-                </div>
-                
-                <div class="attraction-card">
-                    <div class="attraction-img">金字塔与狮身人面像</div>
-                    <div class="attraction-content">
-                        <h3 class="attraction-title">金字塔与狮身人面像</h3>
-                        <p>古埃及文明的象征，拍照打卡的绝佳地点，仿佛瞬间穿越到了埃及。</p>
+                    <p class="english-text">Hong Kong Science Park is dedicated to fostering innovation and technological advancement. It serves as a hub for research and development, bringing together brilliant minds and cutting-edge technologies.</p>
+                    <p class="chinese-translation">香港科學園致力於促進創新和技術進步。它作為研發中心，匯聚了卓越人才和尖端技術。</p>
+                </li>
+                <li>
+                    <div class="point-title">
+                        <div class="point-icon">2</div>
+                        <h3>State-of-the-Art Infrastructure</h3>
                     </div>
-                </div>
-                
-                <div class="attraction-card">
-                    <div class="attraction-img">尼亚加拉大瀑布</div>
-                    <div class="attraction-content">
-                        <h3 class="attraction-title">尼亚加拉大瀑布</h3>
-                        <p>气势磅礴的人工瀑布，尤其在夏季特别凉爽，是避暑的好地方。</p>
+                    <p class="english-text">The park offers world-class facilities including advanced laboratories, collaborative workspaces, and prototyping workshops to support technology development from concept to commercialization.</p>
+                    <p class="chinese-translation">科學園提供世界一流的設施，包括先進實驗室、協作工作空間和原型製作工場，以支持技術從概念到商業化的發展。</p>
+                </li>
+                <li>
+                    <div class="point-title">
+                        <div class="point-icon">3</div>
+                        <h3>Diverse Technology Focus</h3>
                     </div>
-                </div>
-                
-                <div class="attraction-card">
-                    <div class="attraction-img">东南亚水乡</div>
-                    <div class="attraction-content">
-                        <h3 class="attraction-title">东南亚水乡</h3>
-                        <p>充满异域风情的水上建筑，可以乘坐小船游览，感受东南亚的悠闲氛围。</p>
+                    <p class="english-text">Spanning biotechnology, AI & robotics, fintech, smart city technologies, and green tech, the park cultivates innovation across multiple high-growth sectors.</p>
+                    <p class="chinese-translation">涵蓋生物技術、人工智能與機器人技術、金融科技、智慧城市技術和綠色科技，科學園在多個高增長領域培育創新。</p>
+                </li>
+                <li>
+                    <div class="point-title">
+                        <div class="point-icon">4</div>
+                        <h3>Global Collaboration Network</h3>
                     </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="tickets">
-            <h2>学生票价与优惠</h2>
-            <p>作为学生，最关心的当然是票价啦！世界之窗对学生非常友好：</p>
-            
-            <div class="price-box">
-                <h3>学生特惠票</h3>
-                <div class="price">¥120</div>
-                <p>凭有效学生证购买，全天通票</p>
-                <p>原价：¥220</p>
-            </div>
-            
-            <p><strong>特别提示：</strong>每逢考试季结束后，公园还会推出"学霸优惠"，凭成绩单可享受额外折扣！</p>
-            <p>另外，如果你是本地学生，建议购买年卡，性价比超高，可以随时来玩。</p>
-        </section>
-        
-        <section id="tips">
-            <h2>学生游玩贴士</h2>
-            <p>经过多次游玩，我总结了一些对学生特别有用的建议：</p>
-            
-            <ul class="tips-list">
-                <li><strong>早点到达：</strong>早上9点开园时就进去，可以避开人流高峰，拍照效果更好</li>
-                <li><strong>自带零食：</strong>园内餐饮价格较高，可以自带一些零食和水</li>
-                <li><strong>下载官方APP：</strong>可以查看实时表演时间和景点介绍，还能参与互动游戏</li>
-                <li><strong>关注学生活动：</strong>公园经常举办面向学生的主题活动，比如文化知识竞赛等</li>
-                <li><strong>夜场更优惠：</strong>下午4点后的夜场票对学生更便宜，而且夜景很美</li>
-                <li><strong>组团更划算：</strong>10人以上的学生团体可以享受额外折扣</li>
-                <li><strong>带上学生证：</strong>入园和购买纪念品时都可能需要查验学生证</li>
+                    <p class="english-text">With partnerships spanning across Asia, Europe, and North America, the park facilitates international knowledge exchange and collaborative research projects.</p>
+                    <p class="chinese-translation">通過遍布亞洲、歐洲和北美的合作夥伴關係，科學園促進國際知識交流和協作研究項目。</p>
+                </li>
+                <li>
+                    <div class="point-title">
+                        <div class="point-icon">5</div>
+                        <h3>Talent Development</h3>
+                    </div>
+                    <p class="english-text">The park nurtures the next generation of innovators through incubator programs, mentorship, and connections to venture capital and industry expertise.</p>
+                    <p class="chinese-translation">科學園通過孵化計劃、導師指導以及與風險投資和行業專業知識的聯繫，培育下一代創新者。</p>
+                </li>
             </ul>
-        </section>
+        </div>
         
-        <section id="gallery">
-            <h2>精彩瞬间</h2>
-            <p>这些都是我和同学们在世界之窗拍下的美好回忆：</p>
-            
-            <div class="gallery">
-                <div class="gallery-item">埃菲尔铁塔夜景</div>
-                <div class="gallery-item">文化表演现场</div>
-                <div class="gallery-item">樱花季的日本园</div>
-                <div class="gallery-item">与同学们在金字塔前合影</div>
-            </div>
-        </section>
+        <div class="nav-buttons">
+            <button class="nav-btn btn-back" onclick="goToPage(2)">
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button class="nav-btn btn-next" onclick="goToPage(2)">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
         
-        <section id="location">
-            <h2>交通指南</h2>
-            <p>世界之窗交通非常便利，对学生党来说有多种经济实惠的到达方式：</p>
+        <div class="page-indicator">Page 1 of 2 - Introduction</div>
+    </div>
+
+    <!-- Page 2: Technology Features -->
+    <div id="page2" class="page-container">
+        <div class="page-content">
+            <h2 class="page-title"><i class="fas fa-cogs"></i> Technology Ecosystem & Features</h2>
             
-            <p><strong>地铁：</strong>乘坐地铁1号线或2号线到"世界之窗"站，从A出口出来就是公园大门，这是最推荐的方式！</p>
-            <p><strong>公交：</strong>多条公交线路可到达"世界之窗"站，票价便宜但可能比较拥挤</p>
-            <p><strong>共享单车：</strong>如果住得不远，骑共享单车是既经济又环保的选择</p>
-            
-            <div class="map-container">
-                世界之窗位置地图
+            <div class="tech-feature">
+                <div class="feature-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="feature-content">
+                    <h3 class="english-text">AI & Robotics Center</h3>
+                    <h3 class="chinese-translation">人工智能與機器人中心</h3>
+                    <p class="english-text">The AI & Robotics Center at HKSTP provides state-of-the-art facilities for developing intelligent systems, machine learning algorithms, and advanced robotic solutions for various industries.</p>
+                    <p class="chinese-translation">香港科技園的人工智能與機器人中心為開發智能系統、機器學習算法和用於各行業的先進機器人解決方案提供最先進的設施。</p>
+                </div>
             </div>
-        </section>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-card-img">
+                        <i class="fas fa-dna"></i>
+                    </div>
+                    <div class="tech-card-content">
+                        <h4 class="english-text">Biotech Innovation</h4>
+                        <h4 class="chinese-translation">生物技術創新</h4>
+                        <p class="english-text">Advanced laboratories for pharmaceutical research, genetic engineering, and medical device development.</p>
+                        <p class="chinese-translation">用於藥物研究、基因工程和醫療設備開發的先進實驗室。</p>
+                    </div>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-card-img">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <div class="tech-card-content">
+                        <h4 class="english-text">Smart City Solutions</h4>
+                        <h4 class="chinese-translation">智慧城市解決方案</h4>
+                        <p class="english-text">Developing IoT systems, sustainable infrastructure, and data-driven urban management technologies.</p>
+                        <p class="chinese-translation">開發物聯網系統、可持續基礎設施和數據驅動的城市管理技術。</p>
+                    </div>
+                </div>
+                
+                <div class="tech-card">
+                    <div class="tech-card-img">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <div class="tech-card-content">
+                        <h4 class="english-text">Green Technology Hub</h4>
+                        <h4 class="chinese-translation">綠色科技中心</h4>
+                        <p class="english-text">Focus on renewable energy, waste management innovations, and sustainable materials development.</p>
+                        <p class="chinese-translation">專注於可再生能源、廢物管理創新和可持續材料開發。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tech-feature" style="margin-top: 30px;">
+                <div class="feature-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="feature-content">
+                    <h3 class="english-text">Collaborative Innovation Environment</h3>
+                    <h3 class="chinese-translation">協作創新環境</h3>
+                    <p class="english-text">The park fosters cross-disciplinary collaboration between startups, corporations, and academic institutions, creating a dynamic ecosystem where ideas can flourish and transform into viable technologies.</p>
+                    <p class="chinese-translation">科學園促進初創企業、公司和學術機構之間的跨學科合作，創造一個充滿活力的生態系統，使想法得以蓬勃發展並轉化為可行的技術。</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="nav-btn btn-back" onclick="goToPage(1)">
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            <button class="nav-btn btn-next" onclick="goToPage(1)">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        
+        <div class="page-indicator">Page 2 of 2 - Technology Features</div>
     </div>
     
     <footer>
-        <p>© 2023 世界之窗学生指南 | 本网站由热爱世界之窗的学生制作</p>
-        <p>注：本网站仅为学生项目，非官方网站</p>
+        <p class="english-text">Hong Kong Science Park - Shaping the Future of Technology</p>
+        <p class="chinese-translation">香港科學園 - 塑造技術未來</p>
+        <div class="footer-links">
+            <a href="https://www.hkstp.org" target="_blank" class="english-text">Official Website</a>
+            <a href="https://www.hkstp.org" target="_blank" class="chinese-translation">官方網站</a>
+            <a href="#" class="english-text">Contact Us</a>
+            <a href="#" class="chinese-translation">聯絡我們</a>
+            <a href="#" class="english-text">Visitor Information</a>
+            <a href="#" class="chinese-translation">訪客資訊</a>
+        </div>
+        <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
+            <span class="english-text">© 2023 Hong Kong Science & Technology Parks Corporation</span>
+            <span class="chinese-translation">© 2023 香港科技園公司</span>
+        </p>
     </footer>
 
     <script>
-        // 简单的导航激活效果
-        document.addEventListener('DOMContentLoaded', function() {
-            const navLinks = document.querySelectorAll('.nav-link');
-            
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // 移除所有active类
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    
-                    // 添加active类到当前链接
-                    this.classList.add('active');
-                    
-                    // 滚动到对应部分
-                    const targetId = this.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
-                    
-                    window.scrollTo({
-                        top: targetSection.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                });
+        // Page navigation functionality
+        function goToPage(pageNumber) {
+            // Hide all pages
+            document.querySelectorAll('.page-container').forEach(page => {
+                page.classList.remove('page-active');
             });
             
-            // 根据滚动位置高亮导航
-            window.addEventListener('scroll', function() {
-                let current = '';
-                const sections = document.querySelectorAll('section');
-                
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    
-                    if (pageYOffset >= sectionTop - 100) {
-                        current = section.getAttribute('id');
-                    }
+            // Show the selected page
+            document.getElementById(`page${pageNumber}`).classList.add('page-active');
+        }
+        
+        // Language toggle functionality
+        document.getElementById('languageToggle').addEventListener('click', function() {
+            // Toggle Chinese translation visibility
+            const chineseTexts = document.querySelectorAll('.chinese-translation');
+            const englishTexts = document.querySelectorAll('.english-text');
+            
+            // Check if Chinese is currently displayed
+            const isChineseActive = chineseTexts[0].classList.contains('translation-active');
+            
+            if (isChineseActive) {
+                // Switch to English
+                chineseTexts.forEach(text => {
+                    text.classList.remove('translation-active');
                 });
-                
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${current}`) {
-                        link.classList.add('active');
-                    }
+                englishTexts.forEach(text => {
+                    text.style.display = 'block';
                 });
+                this.innerHTML = '<i class="fas fa-language"></i> 中文 / English';
+            } else {
+                // Switch to Chinese
+                chineseTexts.forEach(text => {
+                    text.classList.add('translation-active');
+                });
+                englishTexts.forEach(text => {
+                    text.style.display = 'none';
+                });
+                this.innerHTML = '<i class="fas fa-language"></i> English / 中文';
+            }
+        });
+        
+        // Set initial language state (English)
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishTexts = document.querySelectorAll('.english-text');
+            englishTexts.forEach(text => {
+                text.style.display = 'block';
             });
         });
     </script>
